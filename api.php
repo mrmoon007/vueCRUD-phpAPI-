@@ -28,11 +28,28 @@ if ($action == "read") {
     while ($row = $result->fetch_assoc()) {
         array_push($employees, $row);
     }
-    $response["employees"] = $employees;
+    if ($result) {
+        $response["employees"] = $employees;
+    } else {
+        $response["message"] = "Server fail";
+    }
 } elseif ($action == "create") {
-    # code...
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $result = $conn->query("INSERT INTO `employee`(`name`, `email`, `phone`) VALUES ('$name','$email','$phone')");
+    if ($result) {
+        $response["employees"] = "Data save successfully";
+    } else {
+        $response["message"] = "Data save fail";
+    }
 } elseif ($action == "update") {
-    # code...
+    $id = $_POST['id'];
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+
+    $result = $conn->query("UPDATE `employee` SET `name`=$name,`email`=$email,`phone`=$phone WHERE `id`=$id");
 } elseif ($action == "delete") {
     # code...
 } else {
