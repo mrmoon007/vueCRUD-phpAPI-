@@ -49,9 +49,22 @@ if ($action == "read") {
     $email = $_POST['email'];
     $phone = $_POST['phone'];
 
-    $result = $conn->query("UPDATE `employee` SET `name`=$name,`email`=$email,`phone`=$phone WHERE `id`=$id");
+    $result = $conn->query("UPDATE `employee` SET `name`='$name',`email`='$email',`phone`='$phone' WHERE `id`='$id'");
+
+    if ($result) {
+        $response["employees"] = "Data updated successfully";
+    } else {
+        $response["message"] = "Data update fail";
+    }
 } elseif ($action == "delete") {
-    # code...
+    $id = $_POST['id'];
+    $result = $conn->query("DELETE FROM `employee` WHERE  `id`='$id'");
+
+    if ($result) {
+        $response["employees"] = "Data delete successfully";
+    } else {
+        $response["message"] = "Data delete fail";
+    }
 } else {
     die("Invalid Action");
 }
